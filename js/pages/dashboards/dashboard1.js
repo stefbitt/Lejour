@@ -90,7 +90,7 @@ function makeChart(years, weddingsForYear) {
             barWidth: '4',
             resize: true,
             barSpacing: '5',
-            barColor: '#7ace4c'
+            barColor: '#68BFB7'
         });
         $('#sparklinedash2').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
             type: 'bar',
@@ -98,7 +98,7 @@ function makeChart(years, weddingsForYear) {
             barWidth: '4',
             resize: true,
             barSpacing: '5',
-            barColor: '#7460ee'
+            barColor: '#DB5D79'
         });
         $('#sparklinedash3').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
             type: 'bar',
@@ -106,7 +106,7 @@ function makeChart(years, weddingsForYear) {
             barWidth: '4',
             resize: true,
             barSpacing: '5',
-            barColor: '#11a0f8'
+            barColor: '#84B8E2'
         });
         $('#sparklinedash4').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
             type: 'bar',

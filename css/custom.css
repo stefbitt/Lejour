@@ -1,0 +1,58 @@
+body {
+  font-family: 'Lato', sans-serif;
+}
+.font-title{
+  font-family: 'Merriweather', serif;
+}
+
+.font-verde-agua {
+  color: #86D0CB !important;
+}
+
+.white-box {
+  border-radius: 15px;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1)
+}
+
+.container-fluid {
+  background-color: #fff;
+}
+
+.page-breadcrumb {
+  background-color: #E2645A;
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link.active {
+  font-weight: 500;
+  border-left: 3px solid #86D0CB;
+}
+
+.btn-perfil {
+  color: #fff;
+  background-color: #86D0CB;
+  border-color: #86D0CB;
+border-radius: 50px;
+width: 300px; }
+
+.btn-perfil:hover {
+    color: #fff;
+    background-color: #84B8E2;
+    border-color: #84B8E2; }
+
+.btn-perfil:focus, .btn-perfil.focus {
+    color: #fff;
+    background-color: #84B8E2;
+    border-color: #7eacd2;
+}
+
+.btn-perfil.disabled, .btn-perfil:disabled {
+    color: #fff;
+    background-color: #86D0CB;
+    border-color: #86D0CB; }
+
+    .btn-perfil:not(:disabled):not(.disabled):active:focus, .btn-perfil:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-perfil.dropdown-toggle:focus {
+      -webkit-box-shadow: 0 0 0 0 rgba(84, 200, 179, 0.5);
+      box-shadow: 0 0 0 0 rgba(84, 200, 179, 0.5); 
+    background-color: #7eacd2;
+    }
