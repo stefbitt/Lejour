@@ -9,12 +9,12 @@ var _users = [];
 var _weddings = [];
 var _appointment = [];
 var _invoices = [];
+var _meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+var _weddingsForYear = [];
+var _years = [];
 
 $(function() {
     "use strict";
-
-    let years = [];
-    let weddingsForYear = [];
 
     getUser();
     getAppoitment();
@@ -35,31 +35,23 @@ $(function() {
         weddings.map(data => {
             let wedding_date = moment(data.WEDDING_DATE);
 
-            if (!years.includes(wedding_date.years())) {
-                years.push(wedding_date.years());
+            if (!_years.includes(wedding_date.years())) {
+                _years.push(wedding_date.years());
             }
         });
 
-        years = years.filter((year => { return !isNaN(year) }));
-        years = years.sort();
+        _years = _years.filter((year => { return !isNaN(year) }));
+        _years = _years.sort();
 
-        let weddingsForYear1 = [];
-        years.map((year, i) => {
-            weddingsForYear[i] = weddings.filter(wedding => {
+        _years.map((year, i) => {
+            _weddingsForYear[i] = weddings.filter(wedding => {
                 let wedding_date = moment(wedding.WEDDING_DATE);
                 return wedding_date.years() == year;
             }).length;
         });
 
-        years.map((year, i) => {
-            weddingsForYear1[i] = weddings.filter(wedding => {
-                let wedding_date = moment(wedding.WEDDING_DATE);
-                return wedding_date.years() == year;
-            });
-        });
-
-        addingYearComboBox(years);
-        makeChart(years, weddingsForYear);
+        addingYearComboBox(_years);
+        makeChart(_years, _weddingsForYear);
 
     }).catch(function(data) {
         console.error("Error retrieve data users");
@@ -118,6 +110,32 @@ function searchReport() {
     loadPagamentosPendentesByMesAno(ano, mes);
 }
 
+function chanceReportYear() {
+    let year = $("#filtro_ano_wedding").val();
+
+    if (!isNaN(year)) {
+        let weddings = _weddings.filter((wedding) => {
+            let wedding_date = moment(wedding.WEDDING_DATE);
+            return wedding_date.years() == year;
+        });
+    
+        let weddingsByMes = [];
+         for(let i = 0; i < 12; i++) {
+            weddingsByMes[i] = weddings.filter((item) => {
+                let wedding_date = moment(item.WEDDING_DATE);
+                return wedding_date.months() == i;
+            }).reduce((acumulador, valorAtual) => {
+                return acumulador + (valorAtual.BUDGET != "NULL" ? valorAtual.BUDGET : 0);
+            }, 0);
+         }
+    
+         make(weddingsByMes);
+    } else {
+        makeChart(_years, _weddingsForYear);
+    }
+
+}
+
 function loadUserByAnoMes(ano, mes) {
     let userByAnoMes = _users.filter((user) => {
         let createdAt = moment(user.CREATED_AT);
@@ -162,12 +180,31 @@ function loadUserHasCasamentos() {
         return user.ID;
     });
 
-
-
     _weddings.map((weddings) => {
 
     });
 
+}
+
+function make(weddingsByMes) {
+    new Chartist.Line('#ct-visits', {
+        labels: _meses,
+        series: [weddingsByMes]
+    }, {
+        top: 0,
+        low: 1,
+        showPoint: true,
+        fullWidth: true,
+        plugins: [
+            Chartist.plugins.tooltip()
+        ],
+        axisY: {
+            labelInterpolationFnc: function(value) {
+                return (value / 1) + 'k';
+            }
+        },
+        showArea: true
+    });
 }
 
 function makeChart(years, weddingsForYear) {
@@ -190,8 +227,6 @@ function makeChart(years, weddingsForYear) {
         },
         showArea: true
     });
-
-    var chart = [chart];
 
     var sparklineLogin = function() {
         $('#sparklinedash').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
