@@ -21,6 +21,7 @@ $(function() {
     getInvoices();
     loadUserHasCasamentos();
 
+
     fetch("https://sheet2api.com/v1/ByR2h1huRjyQ/fiap/wedding").then(function(response) {
         return response.json();
     }).then(function(weddings) {
@@ -118,18 +119,18 @@ function chanceReportYear() {
             let wedding_date = moment(wedding.WEDDING_DATE);
             return wedding_date.years() == year;
         });
-    
+
         let weddingsByMes = [];
-         for(let i = 0; i < 12; i++) {
+        for (let i = 0; i < 12; i++) {
             weddingsByMes[i] = weddings.filter((item) => {
                 let wedding_date = moment(item.WEDDING_DATE);
                 return wedding_date.months() == i;
             }).reduce((acumulador, valorAtual) => {
                 return acumulador + (valorAtual.BUDGET != "NULL" ? valorAtual.BUDGET : 0);
             }, 0);
-         }
-    
-         make(weddingsByMes);
+        }
+
+        make(weddingsByMes);
     } else {
         makeChart(_years, _weddingsForYear);
     }
@@ -186,6 +187,24 @@ function loadUserHasCasamentos() {
 
 }
 
+
+// function usuariosQueCasara() {
+//     let qCasaram = _weddings.map((wedding) => {
+//         return wedding.ID;
+//     })
+//     let qUser = _users.map((user) => {
+//         return user.ID;
+//     })
+
+//     let results = qCasaram == qUser;
+
+//     // let a = $("#sparklinedash7").text(results.length);
+//     let a = results.length;
+//     console.log(a);
+
+// }
+
+
 function make(weddingsByMes) {
     new Chartist.Line('#ct-visits', {
         labels: _meses,
@@ -237,7 +256,7 @@ function makeChart(years, weddingsForYear) {
             barSpacing: '5',
             barColor: '#68BFB7'
         });
-        $('#sparklinedash7').sparkline([52,48], {
+        $('#sparklinedash7').sparkline([52, 48], {
             type: 'pie',
             height: '60',
             barWidth: '8',
@@ -277,3 +296,34 @@ function makeChart(years, weddingsForYear) {
     });
     sparklineLogin();
 }
+
+// ======================================================================================
+// Themes begin
+am4core.useTheme(am4themes_material);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+// Add data
+chart.data = [{
+    "user": "Agendamentos",
+    "litres": 1483
+}, {
+    "user": "usuários cadastrados",
+    "litres": 4611
+}];
+
+// Add and configure Series
+var pieSeries = chart.series.push(new am4charts.PieSeries());
+pieSeries.dataFields.value = "litres";
+pieSeries.dataFields.category = "user";
+pieSeries.slices.template.stroke = am4core.color("#fff");
+pieSeries.slices.template.strokeWidth = 2;
+pieSeries.slices.template.strokeOpacity = 1;
+
+// This creates initial animation
+pieSeries.hiddenState.properties.opacity = 1;
+pieSeries.hiddenState.properties.endAngle = -90;
+pieSeries.hiddenState.properties.startAngle = -90;
