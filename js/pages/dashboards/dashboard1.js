@@ -19,16 +19,18 @@ $(function() {
     getUser();
     getAppoitment();
     getInvoices();
+    loadUserHasCasamentos();
 
     fetch("https://sheet2api.com/v1/ByR2h1huRjyQ/fiap/wedding").then(function(response) {
         return response.json();
     }).then(function(weddings) {
-        _weddings = weddings;
-        $("#qtd-wedding").text(weddings.length);
 
-        weddings.filter(data => {
+        weddings = weddings.filter(data => {
             return data.WEDDING_DATE != "NULL";
         });
+
+        $("#qtd-wedding").text(weddings.length);
+        _weddings = weddings;
 
         weddings.map(data => {
             let wedding_date = moment(data.WEDDING_DATE);
@@ -148,13 +150,24 @@ function addingYearComboBox(years) {
     });
 }
 
+function loadUserHasCasamentos() {
+    let usersIDs = _users.map((user) => {
+        return user.ID;
+    });
+
+
+
+    _weddings.map((weddings) => {
+
+    });
+
+}
+
 function makeChart(years, weddingsForYear) {
     //ct-visits
     new Chartist.Line('#ct-visits', {
         labels: years,
-        series: [
-            weddingsForYear
-        ]
+        series: [weddingsForYear]
     }, {
         top: 0,
         low: 1,
@@ -171,7 +184,6 @@ function makeChart(years, weddingsForYear) {
         showArea: true
     });
 
-
     var chart = [chart];
 
     var sparklineLogin = function() {
@@ -181,6 +193,14 @@ function makeChart(years, weddingsForYear) {
             barWidth: '4',
             resize: true,
             barSpacing: '5',
+            barColor: '#68BFB7'
+        });
+        $('#sparklinedash7').sparkline([52,48], {
+            type: 'pie',
+            height: '60',
+            barWidth: '8',
+            resize: true,
+            barSpacing: '10',
             barColor: '#68BFB7'
         });
         $('#sparklinedash2').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
