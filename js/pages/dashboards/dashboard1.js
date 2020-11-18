@@ -108,7 +108,7 @@ function getAppoitment() {
 }
 
 function searchReport() {
-    let ano = $("#filtro_ano").val();
+    let ano = $(".filtro_ano").val();
     let mes = $("#filtro_mes").val();
 
     loadUserByAnoMes(ano, mes);
@@ -136,12 +136,19 @@ function loadCasamentosByAnoMes(ano, mes) {
 
 function loadPagamentosPendentesByMesAno(ano, mes) {
 
-    $("#qtd-pagamentos-pendentes-mes").text(casamentosByAnoMes.length);
+    let pagamentosPendentes = _invoices.filter((invoices) => {
+        let createdAt = moment(invoices.CREATED_AT);
+        let accepted = invoices.ACCEPTED;
+        return createdAt.years() == ano && createdAt.months() == mes && accepted.toLowerCase() == "false";
+
+    })
+
+    $("#qtd-pagamentos-pendentes-mes").text(pagamentosPendentes.length);
 
 }
 
 function addingYearComboBox(years) {
-    let filtroAno = $("#filtro_ano");
+    let filtroAno = $(".filtro_ano");
     years.map((year) => {
         let option = `<option value='${year}'>${year}</option>`;
         filtroAno.append(option)
