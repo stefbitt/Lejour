@@ -136,7 +136,14 @@ function loadCasamentosByAnoMes(ano, mes) {
 
 function loadPagamentosPendentesByMesAno(ano, mes) {
 
-    $("#qtd-pagamentos-pendentes-mes").text(casamentosByAnoMes.length);
+    let pagamentosPendentes = _invoices.filter((invoices) => {
+        let createdAt = moment(invoices.CREATED_AT);
+        let accepted = invoices.ACCEPTED;
+        return createdAt.years() == ano && createdAt.months() == mes && accepted.toLowerCase() == "false";
+
+    })
+
+    $("#qtd-pagamentos-pendentes-mes").text(pagamentosPendentes.length);
 
 }
 
