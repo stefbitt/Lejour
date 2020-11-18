@@ -108,7 +108,7 @@ function getAppoitment() {
 }
 
 function searchReport() {
-    let ano = $("#filtro_ano").val();
+    let ano = $(".filtro_ano").val();
     let mes = $("#filtro_mes").val();
 
     loadUserByAnoMes(ano, mes);
@@ -148,7 +148,7 @@ function loadPagamentosPendentesByMesAno(ano, mes) {
 }
 
 function addingYearComboBox(years) {
-    let filtroAno = $("#filtro_ano");
+    let filtroAno = $(".filtro_ano");
     years.map((year) => {
         let option = `<option value='${year}'>${year}</option>`;
         filtroAno.append(option)
